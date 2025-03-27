@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, signal, untracked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Flight, injectTicketsFacade } from '../../logic-flight';
+import { Flight, FlightFilter, injectTicketsFacade } from '../../logic-flight';
 import { FlightCardComponent, FlightFilterComponent } from '../../ui-flight';
 
 
@@ -16,13 +16,9 @@ import { FlightCardComponent, FlightFilterComponent } from '../../ui-flight';
   templateUrl: './flight-search.component.html',
 })
 export class FlightSearchComponent {
-  private ticketsFacade = injectTicketsFacade();
+  protected ticketsFacade = injectTicketsFacade();
 
-  protected filter = signal({
-    from: 'London',
-    to: 'New York',
-    urgent: false
-  });
+  protected filter = this.ticketsFacade.filter;
   protected route = computed(
     () => 'From ' + this.filter().from + ' to ' + this.filter().to + '.'
   );
@@ -37,15 +33,16 @@ export class FlightSearchComponent {
       this.route();
       untracked(() => this.logRoute());
     });
-
-    effect(() => this.search());
   }
 
   logRoute(): void {
     console.log(this.route());
   }
 
-  protected search(): void {
+  protected search(filter: FlightFilter): void {
+    console.log(filter);
+
+    this.ticketsFacade.search(filter);
     if (!this.filter().from || !this.filter().to) {
       return;
     }

@@ -8,7 +8,8 @@
   <div class="card-body">
 
     <app-flight-filter
-      [(filter)]="filter"
+      [filter]="filter()"
+      (filterChange)="ticketsFacade.search($event)"
     >
       <div *ngIf="flights.length" class="flight-filter-info">
         {{ flights.length }} flights found!
