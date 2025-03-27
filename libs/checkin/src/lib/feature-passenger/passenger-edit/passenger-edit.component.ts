@@ -32,9 +32,12 @@ export class PassengerEditComponent {
   });
 
   id = input(0, { transform: numberAttribute });
-  passengerResource = httpResource<Passenger | undefined>(
-    () => `https://demo.angulararchitects.io/api/passenger?id=${ this.id() }`
-  );
+  passengerResource = httpResource<Passenger | undefined>(() => ({
+    url: 'https://demo.angulararchitects.io/api/passenger',
+    params: {
+      id: this.id()
+    }
+  }));
 
   constructor() {
     effect(() => {
