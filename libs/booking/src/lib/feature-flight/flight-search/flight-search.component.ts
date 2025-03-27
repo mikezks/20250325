@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, computed, effect, signal, untracked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Flight, FlightFilter, injectTicketsFacade } from '../../logic-flight';
 import { FlightCardComponent, FlightFilterComponent } from '../../ui-flight';
-import { SIGNAL } from '@angular/core/primitives/signals';
 
 
 @Component({
@@ -34,16 +33,29 @@ export class FlightSearchComponent {
   protected flights$ = this.ticketsFacade.flights$;
 
   constructor() {
-    const reactiveFn = () => {
-      console.log(this.route());
-    };
+    effect(() => {
+      this.route();
+      untracked(() => this.logRoute());
+    });
 
-    const effectRef = effect(reactiveFn);
-    // effectRef.destroy();
-    // console.log(this.route[SIGNAL]);
-    // let activeConsumer = null;
-    // activeConsumer = effectRef
+    console.log(this.filter().from);
+    this.filter.update(curr => ({ ...curr, from: 'Barcelona'}));
+    console.log(this.filter().from);
+    this.filter.update(curr => ({ ...curr, from: 'Madrid'}));
+    console.log(this.filter().from);
+    this.filter.update(curr => ({ ...curr, from: 'Rome'}));
+    console.log(this.filter().from);
+    this.filter.update(curr => ({ ...curr, from: 'Oslo'}));
+    console.log(this.filter().from);
+    this.filter.update(curr => ({ ...curr, from: 'Athens'}));
+    console.log(this.filter().from);
 
+    const counter = signal(0);
+    const isEven = computed(() => counter() % 2 === 0);
+  }
+
+  logRoute(): void {
+    console.log(this.route());
   }
 
   protected search(filter: FlightFilter): void {
