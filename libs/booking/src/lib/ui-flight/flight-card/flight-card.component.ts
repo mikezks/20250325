@@ -1,7 +1,7 @@
 import { DatePipe, NgStyle } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Output, effect, input, linkedSignal, model, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-// import { injectCdBlink } from '@flight-demo/shared/logger';
+import { injectCdBlink } from '@flight-demo/shared/logger';
 import { Flight } from '../../logic-flight';
 
 
@@ -48,7 +48,7 @@ import { Flight } from '../../logic-flight';
   `
 })
 export class FlightCardComponent {
-  // blink = injectCdBlink();
+  blink = injectCdBlink();
 
   readonly item = input.required<Flight>();
   readonly itemChange = output<Flight>();
