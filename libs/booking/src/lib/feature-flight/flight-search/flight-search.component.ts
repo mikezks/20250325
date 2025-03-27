@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, signal, untracked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Flight, FlightFilter, injectTicketsFacade } from '../../logic-flight';
+import { Flight, injectTicketsFacade } from '../../logic-flight';
 import { FlightCardComponent, FlightFilterComponent } from '../../ui-flight';
 
 
@@ -31,7 +31,6 @@ export class FlightSearchComponent {
     5: true
   };
   protected flights = this.ticketsFacade.flights;
-  protected flights$ = this.ticketsFacade.flights$;
 
   constructor() {
     effect(() => {
