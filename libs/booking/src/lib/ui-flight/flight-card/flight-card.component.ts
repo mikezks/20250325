@@ -53,21 +53,7 @@ export class FlightCardComponent {
   readonly item = input.required<Flight>();
   readonly itemChange = output<Flight>();
   readonly selected = model(false);
-  flightState = linkedSignal({
-    source: this.item,
-    computation: flight => flight
-  });
-
-  constructor() {
-    setTimeout(() => this.flightState.update(
-      curr => ({ ...curr, from: 'New York'})
-    ), 5_000);
-    const effectRef = effect(() => {
-      console.log(this.flightState());
-      // effectRef.destroy();
-    });
-  }
-
+  
   toggleSelection(): void {
     this.selected.update(curr => !curr);
   }
